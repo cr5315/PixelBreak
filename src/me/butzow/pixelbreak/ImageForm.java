@@ -31,6 +31,7 @@ public class ImageForm implements ActionListener, ChangeListener {
     private final File picturesDir = new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures");
 
     public interface Callback {
+        void saveImage(File file, double a, int b, double x, double y);
         void updateImage(File file, double a, int b, double x, double y);
     }
 
@@ -113,7 +114,7 @@ public class ImageForm implements ActionListener, ChangeListener {
         if (e.getSource() == loadImageButton) {
             showFileChooser();
         }  else if (e.getSource() == saveImageButton) {
-            callback.updateImage(fileChooser.getSelectedFile(), (double) spinner1.getValue(), (int) spinner2.getValue(), (double) spinner3.getValue(), (double) spinner4.getValue());
+            callback.saveImage(fileChooser.getSelectedFile(), (double) spinner1.getValue(), (int) spinner2.getValue(), (double) spinner3.getValue(), (double) spinner4.getValue());
         } else if (e.getSource() == aboutButton) {
             if (Desktop.isDesktopSupported()) {
                 try {

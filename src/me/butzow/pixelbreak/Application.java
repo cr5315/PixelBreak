@@ -15,6 +15,17 @@ public class Application implements ImageForm.Callback {
     }
 
     @Override
+    public void saveImage(File file, double a, int b, double x, double y) {
+        if (file == null) return;
+
+        try {
+            imageForm.saveImage(Breaker.breakImage(ImageIO.read(file), a, b, x, y));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void updateImage(File file, double a, int b, double x, double y) {
         if (file == null) return;
 
