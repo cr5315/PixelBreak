@@ -23,6 +23,7 @@ public class ImageForm implements ActionListener, ChangeListener {
     private JSpinner spinner2;
     private JSpinner spinner3;
     private JSpinner spinner4;
+    private JLabel statusLabel;
 
     private Callback callback;
     private JFrame frame;
@@ -64,8 +65,16 @@ public class ImageForm implements ActionListener, ChangeListener {
         try {
             File outFile = new File(outDir, selectedFilename);
             ImageIO.write(brokenImage, "png", outFile);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            statusLabel.setText("Saved!");
+            Timer timer = new Timer(2000, e -> statusLabel.setText(null));
+            timer.setRepeats(false);
+            timer.start();
+        } catch (IOException ignored) {
+            statusLabel.setText("Error!");
+            Timer timer = new Timer(2000, e -> statusLabel.setText(null));
+            timer.setRepeats(false);
+            timer.start();
         }
     }
 
