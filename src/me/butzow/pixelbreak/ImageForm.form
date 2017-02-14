@@ -36,14 +36,6 @@
           <text value="Load Image"/>
         </properties>
       </component>
-      <component id="9918e" class="javax.swing.JButton" binding="rebreakButton" default-binding="true">
-        <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Rebreak"/>
-        </properties>
-      </component>
       <component id="721e2" class="javax.swing.JSpinner" binding="spinner1" default-binding="true">
         <constraints>
           <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>

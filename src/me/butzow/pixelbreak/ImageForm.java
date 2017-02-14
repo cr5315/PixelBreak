@@ -2,6 +2,8 @@ package me.butzow.pixelbreak;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,12 +13,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
-public class ImageForm implements ActionListener {
+public class ImageForm implements ActionListener, ChangeListener {
     private JPanel rootPanel;
     private JLabel imageLabel;
     private JButton saveImageButton;
     private JButton loadImageButton;
-    private JButton rebreakButton;
     private JButton aboutButton;
     private JSpinner spinner1;
     private JSpinner spinner2;
@@ -30,8 +31,7 @@ public class ImageForm implements ActionListener {
     private final File picturesDir = new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures");
 
     public interface Callback {
-        void onImageSelected(File file, double a, int b, double x, double y);
-        void onSaveImageRequested(File file, double a, int b, double x, double y);
+        void updateImage(File file, double a, int b, double x, double y);
     }
 
     public ImageForm(Callback callback) {
@@ -86,14 +86,20 @@ public class ImageForm implements ActionListener {
     public void show() {
         saveImageButton.addActionListener(this);
         loadImageButton.addActionListener(this);
-        rebreakButton.addActionListener(this);
         aboutButton.addActionListener(this);
 
 
         spinner1.setModel(new SpinnerNumberModel(2.5, 0.1, 5.0, 0.1));
+        spinner1.addChangeListener(this);
+
         spinner2.setModel(new SpinnerNumberModel(2, 1, 10, 1));
+        spinner2.addChangeListener(this);
+
         spinner3.setModel(new SpinnerNumberModel(1.2, 0.1, 5.0, 0.1));
+        spinner3.addChangeListener(this);
+
         spinner4.setModel(new SpinnerNumberModel(1.001, 0.001, 5.0, 0.001));
+        spinner4.addChangeListener(this);
 
         frame.add(rootPanel);
 
@@ -106,10 +112,8 @@ public class ImageForm implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loadImageButton) {
             showFileChooser();
-        } else if (e.getSource() == rebreakButton) {
-            callback.onImageSelected(fileChooser.getSelectedFile(), (double) spinner1.getValue(), (int) spinner2.getValue(), (double) spinner3.getValue(), (double) spinner4.getValue());
-        } else if (e.getSource() == saveImageButton) {
-            callback.onSaveImageRequested(fileChooser.getSelectedFile(), (double) spinner1.getValue(), (int) spinner2.getValue(), (double) spinner3.getValue(), (double) spinner4.getValue());
+        }  else if (e.getSource() == saveImageButton) {
+            callback.updateImage(fileChooser.getSelectedFile(), (double) spinner1.getValue(), (int) spinner2.getValue(), (double) spinner3.getValue(), (double) spinner4.getValue());
         } else if (e.getSource() == aboutButton) {
             if (Desktop.isDesktopSupported()) {
                 try {
@@ -119,11 +123,16 @@ public class ImageForm implements ActionListener {
         }
     }
 
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        callback.updateImage(fileChooser.getSelectedFile(), (double) spinner1.getValue(), (int) spinner2.getValue(), (double) spinner3.getValue(), (double) spinner4.getValue());
+    }
+
     private void showFileChooser() {
         int result = fileChooser.showOpenDialog(rootPanel);
 
         if (result == JFileChooser.APPROVE_OPTION) {
-            callback.onImageSelected(fileChooser.getSelectedFile(), (double) spinner1.getValue(), (int) spinner2.getValue(), (double) spinner3.getValue(), (double) spinner4.getValue());
+            callback.updateImage(fileChooser.getSelectedFile(), (double) spinner1.getValue(), (int) spinner2.getValue(), (double) spinner3.getValue(), (double) spinner4.getValue());
         }
     }
 }

@@ -5,7 +5,6 @@ Pixel Break is a simple Java application which provides a GUI for the image mani
 ## Usage
 
 * Load an image and adjust the values in the four input fields
-* After changing values, select the "Rebreak" button to apply the new changes
 * Broken images are saved in home/Pictures/PixelBreak
 
 ## License
